@@ -4,3 +4,4 @@ ciudades=["Salta", "Jujuy", "Catamarca", "Santiago", "Buenos aires", "Cordoba", 
 print(ciudades)
 ciudades.remove("Catamarca")
 print(ciudades)
+
