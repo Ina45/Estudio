@@ -27,3 +27,12 @@ else:
 
 
 
+print("Ingrese una vocal")
+vocal = input()
+
+if vocal == "A" or vocal == "E" or vocal == "I" or vocal == "O" or vocal == "U" or vocal == "a" or vocal == "e" or vocal == "i" or vocal == "o" or vocal == "u":
+    print("Es una vocal")
+else:
+    print("No es una vocal")
+
+print("ingresar numero")
