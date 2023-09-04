@@ -137,10 +137,6 @@ class Estado:
         self.nombre = nombre  #activo - inactivo 
         
 
-
-
-
-
 class Rol:
     def __init__(self, nombre):
         self.nombre = nombre
