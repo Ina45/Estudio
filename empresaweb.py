@@ -104,10 +104,10 @@ class Curso:
         self._estado = value
         
 class Categoria:
-    def __init__(self, inicial, intermedio, avanzado):
-        self.inicial = inicial
-        self.intermedio = intermedio
-        self.avanzado = avanzado
+    def __init__(self, nombre):
+        self.nombre = nombre
+    
+
 
 class Clase:
     def __init__(self, fecha, titulo, contenido, URLDrive):
@@ -133,17 +133,12 @@ class Docente:
 
 
 class Estado:
-    def __init__(self, disponible, no_disponible):
-        self.disponible = disponible
-        self.no_disponible= no_disponible
+    def __init__(self, nombre):
+        self.nombre = nombre  #activo - inactivo 
+        
 
 
-class Usuario:
-    def __init__(self):
-        self.activo = True
-        self.password = ""
-        self.password_confirmacion = ""
-        self.estado = "Disponible"
+
 
 
 class Rol:
@@ -152,40 +147,42 @@ class Rol:
 
 
 class MedioPago:
-    def __init__(self, tipo):
-        self.tipo = tipo
-
-
-class TarjetaCredito(MedioPago):
-    def __init__(self, tipo, numero, fecha_vencimiento, codigo_seguridad):
-        super().__init__(tipo)
-        self.numero = numero
-        self.fecha_vencimiento = fecha_vencimiento
-        self.codigo_seguridad = codigo_seguridad
+    def __init__(self, nombre):
+        self.nombre = nombre
 
 
 class TarjetaDebito(MedioPago):
-    def __init__(self, tipo, numero, fecha_vencimiento):
-        super().__init__(tipo)
+    def __init__(self, nombre, numero, fecha_vencimiento):
+        super().__init__(nombre)
         self.numero = numero
         self.fecha_vencimiento = fecha_vencimiento
 
 
 class Transferencia(MedioPago):
-    def __init__(self, tipo, datos_bancarios):
-        super().__init__(tipo)
+    def __init__(self, nombre, datos_bancarios):
+        super().__init__(nombre)
         self.datos_bancarios = datos_bancarios
 
+class TarjetaCredito(TarjetaDebito):
+    def __init__(self, nombre, numero, fecha_vencimiento, codigo_seguridad):
+        super().__init__(nombre,numero, fecha_vencimiento)
+        self.codigo_seguridad = codigo_seguridad
 
-class UsuarioFinal:
-    def __init__(self, nombre_usuario, contrasena, estado="Activo",
+class Usuario:
+    def __init__(self, password,password_confirmacion, nombre_usuario): 
+        self.password = password
+        self.password_confirmacion = password_confirmacion
+        self.estado = Estado ("activo")
+        self.nombre_usuario = nombre_usuario
+
+class UsuarioFinal(Usuario):
+    def __init__(self, nombre_usuario, contrasena,
                 nombre, apellido, dni, 
                  fecha_nacimiento, direccion, localidad, codigo_postal, provincia, 
-                 telefono_celular, email):
-        super().__init__()
-        self.nombre_usuario = nombre_usuario
-        self.contrasena = contrasena
-        self.estado = estado
+                 telefono_celular, email,estado="Activo" ):
+        super().__init__(contrasena, contrasena, nombre_usuario)
+        
+   
         self.nombre =nombre
         self.apellido= apellido
         self.dni = dni
@@ -213,6 +210,7 @@ class CarritoCompras:
         self.usuario = None
         self.confirmacion = False
         self.fecha_compra = None
+        self.compra= None # la compra
 
     def agregar_curso(self, curso):
         self.cursos.append(curso)
@@ -220,10 +218,6 @@ class CarritoCompras:
     def eliminar_curso(self, curso):
         self.cursos.remove(curso)
 
-    def confirmar_compra(self, usuario, fecha_compra, monto_total):
-        self.confirmacion = True
-        self.usuario = usuario
-        self.fecha_compra = fecha_compra
-        self.monto_total = monto_total
-
-
+    def confirmar_compra(self, usuario, fecha_compra, monto_total, medio_pago):
+        self.compra = Compra (fecha_compra, usuario, monto_total, medio_pago, True)
+        
