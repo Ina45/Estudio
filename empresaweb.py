@@ -153,16 +153,15 @@ class TarjetaDebito(MedioPago):
         self.numero = numero
         self.fecha_vencimiento = fecha_vencimiento
 
+class TarjetaCredito(TarjetaDebito):
+    def __init__(self, nombre, numero, fecha_vencimiento, codigo_seguridad):
+        super().__init__(nombre,numero, fecha_vencimiento)
+        self.codigo_seguridad = codigo_seguridad
 
 class Transferencia(MedioPago):
     def __init__(self, nombre, datos_bancarios):
         super().__init__(nombre)
         self.datos_bancarios = datos_bancarios
-
-class TarjetaCredito(TarjetaDebito):
-    def __init__(self, nombre, numero, fecha_vencimiento, codigo_seguridad):
-        super().__init__(nombre,numero, fecha_vencimiento)
-        self.codigo_seguridad = codigo_seguridad
 
 class Usuario:
     def __init__(self, password,password_confirmacion, nombre_usuario): 
@@ -175,10 +174,8 @@ class UsuarioFinal(Usuario):
     def __init__(self, nombre_usuario, contrasena,
                 nombre, apellido, dni, 
                  fecha_nacimiento, direccion, localidad, codigo_postal, provincia, 
-                 telefono_celular, email,estado="Activo" ):
+                 telefono_celular, email, estado="Activo" ):
         super().__init__(contrasena, contrasena, nombre_usuario)
-        
-   
         self.nombre =nombre
         self.apellido= apellido
         self.dni = dni
@@ -216,4 +213,46 @@ class CarritoCompras:
 
     def confirmar_compra(self, usuario, fecha_compra, monto_total, medio_pago):
         self.compra = Compra (fecha_compra, usuario, monto_total, medio_pago, True)
-        
+     
+      # Aqui agregue lo de herencias
+       
+class Docente(Usuario):
+    def __init__(self, nombre, apellido, dni, fecha_nacimiento, direccion, localidad, 
+                 codigo_postal, provincia, telefono_celular, email):
+        super().__init__(nombre, apellido, dni, fecha_nacimiento, direccion, localidad, 
+                         codigo_postal, provincia, telefono_celular, email)
+    
+    
+class Compra:
+    def __init__(self, id_compra, id_carrito_compra, id_medio_pago, id_usuario, fecha, monto_total):
+        self.id_compra = id_compra
+        self.id_carrito_compra = id_carrito_compra
+        self.id_medio_pago = id_medio_pago
+        self.id_usuario = id_usuario
+        self.fecha = fecha
+        self.monto_total = monto_total
+class MedioContacto:
+    def __init__(self, id_medio_contacto, fecha, email, telefono, direccion, nombre):
+        self.id_medio_contacto = id_medio_contacto
+        self.fecha = fecha
+        self.email = email
+        self.telefono = telefono
+        self.direccion = direccion
+        self.nombre = nombre
+from enum import Enum
+
+class TipoMedioContacto(Enum):
+    WHATSAPP = "WhatsApp"
+    CORREO_ELECTRONICO = "Correo electrónico"
+    CALL_CENTER = "Call center"
+    REFERIDO_INTERNO = "Referido interno"
+tipo = TipoMedioContacto.WHATSAPP
+
+class MedioContacto:
+    def __init__(self, id_medio_contacto, fecha, email, telefono, direccion, nombre):
+        self.id_medio_contacto = id_medio_contacto
+        self.fecha = fecha
+        self.email = email
+        self.telefono = telefono
+        self.direccion = direccion
+        self.nombre = nombre
